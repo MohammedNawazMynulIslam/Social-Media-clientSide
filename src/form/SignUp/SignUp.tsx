@@ -8,8 +8,10 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
 import { SignUpValidation } from "@/lib/valibation"
-import { Loader } from "@/components/ui/shared/loader"
+
 import { Link } from "react-router-dom"
+import { createUserAccount } from "@/lib/appwrite/api"
+import { Loader } from "@/components/ui/shared/Loader"
 
 
 
@@ -29,8 +31,8 @@ const isLoading=false;
 
     // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof SignUpValidation>) {
-      // const newUser = await createUserAccount(values)
-      console.log(values)
+      const newUser = await createUserAccount(values)
+      console.log(newUser)
     }
 
   return (
