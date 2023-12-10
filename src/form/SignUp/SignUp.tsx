@@ -3,8 +3,10 @@ import * as z from "zod"
 // import { Button } from "@/components/ui/button"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,
+import { Form, FormControl,  FormField, FormItem, FormLabel, FormMessage,
 } from "@/components/ui/form"
+import { useToast } from "@/components/ui/use-toast"
+
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
 import { SignUpValidation } from "@/lib/valibation"
@@ -16,6 +18,7 @@ import { Loader } from "@/components/ui/shared/Loader"
 
 
 export const SignUp = () => {
+  const {toast} = useToast()
 const isLoading=false;
 
     // 1. Define your form.
@@ -32,7 +35,13 @@ const isLoading=false;
     // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof SignUpValidation>) {
       const newUser = await createUserAccount(values)
-      console.log(newUser)
+      if(!newUser){
+        return toast({
+          title: "Cannot sign up. something is wrong. Please try again ",
+          description: "Friday, February 10, 2023 at 5:57 PM",
+        })
+
+      }
     }
 
   return (

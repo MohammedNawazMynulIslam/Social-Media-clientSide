@@ -3,6 +3,10 @@ import { MainLayout } from './Pages/Home/MainLayout';
 import { Authlayout } from './form/Authlayout/Authlayout';
 import { SignIn } from './form/SignIn/SignIn';
 import { SignUp } from './form/SignUp/SignUp';
+import { Toaster } from "@/components/ui/toaster"
+
+
+
 
 
 import './global.css'
@@ -19,6 +23,7 @@ const App = () => {
                 <Route path="/" element={<Home />}/>
                 </Route>
             </Routes>
+            <Toaster/>
         </main>
     );
 };
