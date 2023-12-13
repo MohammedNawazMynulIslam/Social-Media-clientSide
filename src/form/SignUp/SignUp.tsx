@@ -11,15 +11,18 @@ import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
 import { SignUpValidation } from "@/lib/valibation"
 
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import { Loader } from "@/components/ui/shared/Loader"
 import { useCreateUserAccount, useSignInAccount } from "@/lib/tanstack-query/query&Mutation"
+import { userUserContext } from "@/context/AuthContext"
 
 
 
 export const SignUp = () => {
   const {toast} = useToast()
+  const{checkAuthUser, isLoading: isUserLoading} = userUserContext();
+  const navigate = useNavigate();
 
 
 const{mutateAsync:createUserAccount, isloading: isCreatingUser} = useCreateUserAccount();
@@ -51,6 +54,9 @@ const{mutateAsync: signInAccount, isLoading: isSignIn}= useSignInAccount();
         if(!session){
           return toast({title:"Cannot sign in. Try again"})
         }
+      const isLoggedIn =await checkAuthUser();
+      if(isLoggedIn){
+        form.reset();
       }
     }
 
