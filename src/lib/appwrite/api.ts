@@ -2,7 +2,7 @@
 import { ID } from "appwrite";
 import { account, appwriteConfig, avatars, database } from "./config";
 import { INewUser } from "@/types";
-import { Query } from "@tanstack/react-query";
+import { Query } from "appwrite";
 
 export async function createUserAccount(user:INewUser){
     try{
@@ -28,27 +28,27 @@ export async function createUserAccount(user:INewUser){
     }
 }
 
-export async function saveUserToDB(user:{
-    accountId:string;
-    email:string;
-    name:string;
-    imageUrl:URL;
-    username?:string;
-}){
+export async function saveUserToDB(user: {
+    accountId: string;
+    email: string;
+    name: string;
+    imageUrl: URL;
+    username?: string;
+  }) {
     try {
-        const newUser = await database.createDocument(
-            appwriteConfig.databaseId,
-            appwriteConfig.userCollectionId,
-            ID.unique(),
-            user,
-        )
-        return newUser;
+      const newUser = await database.createDocument(
+
+        appwriteConfig.databaseId,
+        appwriteConfig.userCollectionId,
+        ID.unique(),
+        user
+      );
+
+      return newUser;
     } catch (error) {
-        console.log(error);
-
+      console.log(error);
     }
-
-}
+  }
 
 export async function signInAccount(user:{
     email:string;
@@ -61,10 +61,12 @@ export async function signInAccount(user:{
         }
     }
 
-    export async function getCurrentUser(){
+export async function getCurrentUser(){
         try {
             const currentAccount = await account.get();
-            if(!currentAccount) throw Error;
+            if(!currentAccount){
+                throw "No User Logged In"
+            }
             const currentUser = await database.listDocuments(
                 appwriteConfig.databaseId,
                 appwriteConfig.userCollectionId,

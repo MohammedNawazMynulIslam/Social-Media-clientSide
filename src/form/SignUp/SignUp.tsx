@@ -15,18 +15,17 @@ import { Link, useNavigate } from "react-router-dom"
 
 import { Loader } from "@/components/ui/shared/Loader"
 import { useCreateUserAccount, useSignInAccount } from "@/lib/tanstack-query/query&Mutation"
-import { userUserContext } from "@/context/AuthContext"
+import { useUserContext } from "@/context/AuthContext"
+
 
 
 
 export const SignUp = () => {
   const {toast} = useToast()
-  const{checkAuthUser, isLoading: isUserLoading} = userUserContext();
+  const{checkAuthUser, isLoading: isUserLoading} = useUserContext();
   const navigate = useNavigate();
-
-
-const{mutateAsync:createUserAccount, isloading: isCreatingUser} = useCreateUserAccount();
-const{mutateAsync: signInAccount, isLoading: isSignIn}= useSignInAccount();
+const{mutateAsync:createUserAccount, isPending: isCreatingUser} = useCreateUserAccount();
+const{mutateAsync: signInAccount, isPending: isSignIn}= useSignInAccount();
     // 1. Define your form.
     const form = useForm<z.infer<typeof SignUpValidation>>({
       resolver: zodResolver(SignUpValidation),
@@ -46,7 +45,7 @@ const{mutateAsync: signInAccount, isLoading: isSignIn}= useSignInAccount();
         return toast({
           title: "Cannot sign up. something is wrong. Please try again ",
         })
-
+      }
         const session = await signInAccount({
           email:values.email,
           password:values.password
@@ -57,6 +56,9 @@ const{mutateAsync: signInAccount, isLoading: isSignIn}= useSignInAccount();
       const isLoggedIn =await checkAuthUser();
       if(isLoggedIn){
         form.reset();
+        navigate('/')
+      }else{
+        return toast({title:'Sign up failed. Please try again'} )
       }
     }
 

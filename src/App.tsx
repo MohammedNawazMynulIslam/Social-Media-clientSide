@@ -4,11 +4,6 @@ import { Authlayout } from './form/Authlayout/Authlayout';
 import { SignIn } from './form/SignIn/SignIn';
 import { SignUp } from './form/SignUp/SignUp';
 import { Toaster } from "@/components/ui/toaster"
-
-
-
-
-
 import './global.css'
 import {Routes, Route} from 'react-router-dom';
 const App = () => {
